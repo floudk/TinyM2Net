@@ -6,8 +6,10 @@ from tqdm import *
 
 #给定下面三个地址，下载指定的youtube视频
 BASE_URL=r"https://www.youtube.com/watch?v="
-Dataset_file_path=r"C:\Users\DELL\Desktop\TinyM2Net\工科创数据集\Excel文件\dog\dog_balanced_train_segments.xlsx"
-BASE_Download_path=r"C:\Users\DELL\Desktop\TinyM2Net\工科创数据集\视频文件\dog"
+
+RELEATIVE_PATH = r'../DataSet/'
+Dataset_file_path=RELEATIVE_PATH+r"Excel/dog/dog_balanced_train_segments.xlsx"
+BASE_Download_path=RELEATIVE_PATH+r"raw_video/dog"
 
 
 # JPG_path=r"C:\Users\DELL\Desktop\TinyM2Net\工科创数据集\Jpg文件\dog"
