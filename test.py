@@ -274,7 +274,7 @@ if __name__ == '__main__':
         'seed': 42,
         'valid_ratio': 0.99,
         'n_epochs': 1000,
-        'batch_size': 1,
+        'batch_size': 24,
         'learning_rate': 5e-3,
         'early_stop': 50,
         'save_path': './models/',  # model will be saved here.
@@ -287,7 +287,7 @@ if __name__ == '__main__':
     t0 = datetime.datetime.now().strftime("%m%d_%H%M%S")
     seed = config['seed']
     config['save_path'] = config['save_path'] + f'seed_{seed}_{t0}_entropy_standardnoise_.pth'
-    model_path = "/NAS2020/Workspaces/DRLGroup/hrhe/TinyM2Net/models"
+    model_path = "./models"
     path = os.path.join(model_path, "seed_42_1205_073217_entropy_standardnoise_.pth")
     same_seed(config['seed'])
     # load data
