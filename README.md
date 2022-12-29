@@ -1,6 +1,6 @@
 # TinyM2Net
 ## 目录结构
-├── DataGeneration
+├── DataGeneration  
 ├── DataSet
 ├── demo_real_quantized_cpu.ipynb
 ├── main.py
