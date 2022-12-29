@@ -2,6 +2,7 @@
 
 import pyaudio
 import wave
+
 import librosa
 import numpy as np
 # 得到的index是11
@@ -74,10 +75,58 @@ def read_audio(record_second = 1, frames_number=1):
 
     return mfcc_features
     
+def save_audios(savepath):
+    channels = 1
+    rate = 48000
+    chunk = 1024
+    mic_index = 11
+    format = pyaudio.paInt16
+    audio = pyaudio.PyAudio()
+    stream = audio.open(
+        format=format,
+        channels=channels,
+        input_device_index=mic_index,
+        rate=rate,
+        input=True,
+        frames_per_buffer=chunk,
+    )
+
+    frames = []
+    #print("audio record begin........")
+    for i in range(0, int(rate/chunk*12)):
+        data = stream.read(chunk, exception_on_overflow=False) # 这里得到的是字节类型的数据 \x05\x22 这种，长度是chunk*format的字节数，所以每个字节可以转为一个数，0-255之间
+        frames.append(data) 
+
+    #frames_bytes = list(b''.join(frames)) #这可以每个字节转成相应的数字，所以长度就是int(rate/chunk*record_second)*chunk*format的字节数
+    
+
+    stream.stop_stream()
+    stream.close()
+    audio.terminate()
+
+    # save to temp file
+    waveFile = wave.open(savepath, 'wb')
+    waveFile.setnchannels(channels)
+    waveFile.setsampwidth(audio.get_sample_size(format))
+    waveFile.setframerate(rate)
+    waveFile.writeframes(b''.join(frames))
+    waveFile.close()
+
+
 
 if __name__=="__main__":
-    mfccs = read_audio(record_second = 1, frames_number=2)
-    print(len(mfccs))
-    print(mfccs[0])
+    savepath = "/home/tangpeng/TinyM2NetNew/videos/mic_audios/dogs/dog_30_40_2.wav"
+    save_audios(savepath)
+
+    # mfccs = read_audio(record_second = 1, frames_number=2)
+    # print(len(mfccs))
+    # print(mfccs[0])
     # wav_test_path = "/home/tangpeng/tangpengtest/test.wav"
     # test_wav(wav_path=wav_test_path)
+    # import noisereduce as nr
+    # from scipy.io import wavfile
+    # # load data
+    # rate, data = wavfile.read("tmp.wav")
+    # # perform noise reduction
+    # reduced_noise = nr.reduce_noise(y=data, sr=rate)
+    # wavfile.write("mywav_reduced_noise.wav", rate, reduced_noise)
